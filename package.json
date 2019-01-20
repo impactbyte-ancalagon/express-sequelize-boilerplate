@@ -1,0 +1,12 @@
+{
+  "name": "express-sequelize-boilerplate",
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "Gibran Khrisna Putra <gibrankhrisnaputra@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4"
+  }
+}
