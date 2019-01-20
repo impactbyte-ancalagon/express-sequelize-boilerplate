@@ -1,43 +1,39 @@
-let users = [{ id: 1, name: 'John' }, { id: 2, name: 'Doe' }]
+const User = require('../models').User
 
-exports.getUsers = (req, res) => {
-  res.json({ users })
-}
-
-exports.createUser = (req, res) => {
-  users.push({ id: users.length, name: req.body.name })
+exports.getUsers = async (req, res) => {
+  const users = await User.findAll()
 
   res.json({ users })
 }
 
-exports.getUserById = (req, res) => {
-  const user = users.find(user => user.id === parseInt(req.params.id))
+exports.createUser = async (req, res) => {
+  const user = await User.create(req.body)
 
   res.json({ user })
 }
 
-exports.updateUserById = (req, res) => {
-  let updatedUser
+exports.getUserById = async (req, res) => {
+  const user = await User.findById(req.params.id)
 
-  const updatedUsers = users.filter(user => {
-    if (user.id === parseInt(req.params.id)) {
-      updatedUser = Object.assign(user, req.body)
-
-      return updatedUser
-    } else {
-      return user
-    }
-  })
-
-  users = updatedUsers
-
-  res.json({ user: updatedUser })
+  res.json({ user })
 }
 
-exports.deleteUserById = (req, res) => {
-  const updatedUsers = users.filter(user => user.id !== parseInt(req.params.id))
+exports.updateUserById = async (req, res) => {
+  const [isUpdated] = await User.update(req.body, {
+    where: { id: req.params.id }
+  })
 
-  users = updatedUsers
+  if (Boolean(isUpdated)) {
+    const user = await User.findById(req.params.id)
+
+    res.json({ user })
+  } else {
+    res.json({})
+  }
+}
+
+exports.deleteUserById = async (req, res) => {
+  await User.destroy({ where: { id: req.params.id } })
 
   res.json({})
 }
