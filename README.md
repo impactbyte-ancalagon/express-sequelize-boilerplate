@@ -33,7 +33,7 @@ npm start
 yarn start
 ```
 
-Without migrations
+With migrations
 
 ```sh
 sequelize db:migrate
